@@ -1,12 +1,10 @@
 import kivy
 import os
-
-kivy.require("1.10.1")
-
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
+
 
 # ------------------------------------------------------------------------------
 # Dialogs. Must match kv file
@@ -40,7 +38,8 @@ class SaveDialog(FloatLayout):
     def _btn_save_clicked(self):
         path = self._filechooser.path
         content = self._text_input.text
-        filename = (self._filechooser.selection and self._filechooser.selection[0]) or ((len(content) > 0) and content) or ""
+        filename = (self._filechooser.selection and self._filechooser.selection[0]) or (
+            (len(content) > 0) and content) or ""
         self._on_file_selected(path, filename)
         self._dismiss_popup()
 
@@ -126,12 +125,12 @@ class GUI(FloatLayout):
     def text_modified(self):
         # Sets a flag whenever the text changes
         self.modified = True
-        
+
     def new_file(self):
         # Deletes all the text in the widget
         self._textpad.text = ""
         self.modified = False
-        
+
     def show_save_file_as(self):
         self._save_dlg.show()
 

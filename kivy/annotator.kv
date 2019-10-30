@@ -1,0 +1,28 @@
+#:kivy 1.11.1
+
+<GUI>:
+    StackLayout:
+        ActionBar:
+            pos_hint: {'top':1}
+            ActionView:
+                use_separator: True
+                ActionPrevious:
+                    title: ''
+                    size_hint: None, None
+                    size: 0, 0
+                ActionButton:
+                    text: 'Load image'
+                    id: load_image
+                ActionButton:
+                    text: 'Save annotations'
+                    id: save_annotations
+                ActionButton:
+                    text: 'Save annotated image'
+                    id: save_image
+
+        canvas:
+            Color:
+                rgb: 1, 1, 1
+            Rectangle:
+                source: ''
+                size: self.size
