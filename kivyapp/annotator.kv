@@ -1,0 +1,59 @@
+#:kivy 1.11.1
+
+<GUI>:
+    StackLayout:
+        ActionBar:
+            pos_hint: {'top':1}
+            ActionView:
+                use_separator: True
+                ActionPrevious:
+                    title: ''
+                    size_hint: None, None
+                    size: 0, 0
+                ActionButton:
+                    text: 'Load image'
+                    id: load_image
+                ActionButton:
+                    text: 'Save annotations'
+                    id: save_annotations
+                ActionButton:
+                    text: 'Save annotated image'
+                    id: save_image
+
+        BoxLayout:
+            padding:5
+
+            # Adding image from the system
+            Image:
+                source: 'sample.jpeg'
+                # Giving the size of image
+                size_hint_x: 0.4
+                # allow stretching of image
+                allow_stretch: True
+
+# Load file
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'vertical'
+        FileChooserListView:
+            id: file_chooser
+            rootpath: '/home'
+
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                id: btn_cancel
+                text: 'Cancel'
+
+            Button:
+                id: btn_save
+                text: 'Load'

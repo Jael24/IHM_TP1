@@ -1,0 +1,96 @@
+#:kivy 1.10.1
+
+<GUI>:                                  # Main GUI
+    StackLayout:
+        ActionBar:
+            pos_hint: {'top':1}
+            ActionView:
+                use_separator: True
+                ActionPrevious:
+                    title: ''
+                    size_hint: None, None
+                    size: 0, 0
+                ActionOverflow:
+                ActionGroup:
+                    text: 'File'
+                    ActionButton:
+                        text: 'New'
+                    ActionButton:
+                        text: 'Open'
+                    ActionButton:
+                        text: 'Save'
+                        id: menu_save
+                    ActionButton:
+                        text: 'Save as'
+                        id: menu_save_as
+                    ActionButton:
+                        text: 'Exit'
+                        id: menu_exit
+                ActionGroup:
+                    text: 'Edit'
+                    ActionButton:
+                        text: 'Copy'
+                    ActionButton:
+                        text: 'Cut'
+                    ActionButton:
+                        text: 'Paste'
+                ActionGroup:
+                    text: 'Help'
+                    ActionButton:
+                        text: 'Help'
+                    ActionButton:
+                        text: 'About'
+        TextInput:
+            id: textpad
+            size_hint: 1, 1
+            text: ''
+
+<SaveDialog>:                           # Dialog allowing to select a file to save
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'vertical'
+        FileChooserListView:
+            id: filechooser
+            rootpath: '/home'
+
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                id: btn_cancel
+                text: 'Cancel'
+
+            Button:
+                id: btn_save
+                text: 'Save'
+
+<SaveChangesDialog>:                    # Dialog asking whether the user wants to keep the last changes or not
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'vertical'
+        Label:
+            text: 'Do you want to save the last modifications?'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                id: btn_cancel
+                text: 'Cancel'
+
+            Button:
+                id: btn_yes
+                text: 'Yes'
+
+            Button:
+                id: btn_no
+                text: 'No'
+
