@@ -1,29 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="330.0" minWidth="600.0" prefHeight="336.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="330.0" minWidth="600.0" prefHeight="336.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <Button layoutY="1.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="197.0" text="Load image" />
+      <Button layoutY="1.0" mnemonicParsing="false" onAction="#loadImage" prefHeight="26.0" prefWidth="197.0" text="Load image" />
       <Button layoutX="198.0" layoutY="1.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="206.0" text="Save annotation" />
       <Button layoutX="405.0" layoutY="1.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" text="Save annotated image" />
-      <ImageView fitHeight="304.0" fitWidth="306.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../../../../home/jael/Images/B9718295592Z.1_20190120155334_001+GCDCQFTDM.1-0.png.jpg" />
-         </image>
-      </ImageView>
-      <TextField layoutX="324.0" layoutY="55.0" />
-      <Button layoutX="502.0" layoutY="54.0" mnemonicParsing="false" text="New Label" />
-      <ListView layoutX="372.0" layoutY="99.0" prefHeight="125.0" prefWidth="153.0" />
-      <ScrollBar layoutX="526.0" layoutY="99.0" orientation="VERTICAL" prefHeight="125.0" prefWidth="17.0" />
+      <TextField id="tfNewLabel" fx:id="labelName" layoutX="322.0" layoutY="49.0" />
+      <Button id="btnNewLabel" fx:id="newLabel" layoutX="501.0" layoutY="49.0" mnemonicParsing="false" text="New Label" />
+      <ListView id="lvLabels" fx:id="listOfLabels" layoutX="373.0" layoutY="120.0" prefHeight="125.0" prefWidth="183.0" />
       <Button layoutX="370.0" layoutY="254.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Modify" />
-      <Button layoutX="484.0" layoutY="255.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="85.0" text="Delete" />
+      <Button layoutX="481.0" layoutY="253.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="85.0" text="Delete" />
+      <ImageView fx:id="imageView" fitHeight="247.0" fitWidth="350.0" layoutX="7.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" />
+      <ColorPicker id="cpNewLabel" layoutX="373.0" layoutY="83.0" prefHeight="26.0" prefWidth="184.0" />
    </children>
-</AnchorPane>
+</Pane>
