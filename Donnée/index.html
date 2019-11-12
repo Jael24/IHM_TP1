@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IHM 2019 - Image annotation</title>
+    <style type="text/css">
+    body {
+        margin:40px auto;
+        max-width:800px;
+        line-height:1.6;
+        font-size:18px;
+        color:#444;
+        padding:0 10px
+     }
+     h1,h2,h3 {
+        line-height:1.2
+     }
+     table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+     }
+
+     td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+     }
+
+     tr:nth-child(even) {
+        background-color: #dddddd;
+     }
+    </style>
+</head>
+<body alink="#ff0000" bgcolor="#ffffff" link="#0000ef" text="#000000" vlink="#52188c">
+<blockquote>
+  <center>
+  <hr width="100%">
+  </center>
+  <p></p>
+  <center>
+  <table cols="1" nosave="" bgcolor="#ffffcc" border="2" width="60%">
+    <tbody>
+    <tr nosave="">
+      <td nosave="">
+        <center><b><font size="+3">IHM</font></b>
+
+        <p><b><font size="+2">A GUI for image annotation</font></b></p></center></td></tr></tbody></table></center><br>
+  <div align="right"><p>Andres Perez-Uribe<br />Hector Satizabal<br />Axel Fahy</p></div>
+  <hr width="100%">
+
+  <center>
+  <table nosave="" border="1" cols="2" width="80%">
+  <tbody><tr nosave="">
+  <td nosave="">
+  <center><img src="images/iwatch-SAP_GUI.jpg" height="288"><br>SAP GUI for the gold version Apple Watch ?<br> (from mindsetconsulting blog)</center>
+  </td>
+
+  <td>
+  <center><b>"A picture is worth a thousand words.<br>
+    An interface is worth a thousand pictures."
+  </b><p><b>Ben Shneiderman</b></p></center>
+  </td>
+  </tr>
+  </tbody>
+  </table>
+  </center>
+
+<p>The goal of this laboratory is to build Graphical User Interfaces while considering the fundamental principles of design, proposed by Don Norman.
+The project can be realised using Qt, Kivy or any library you are familiar with.
+<br>&nbsp;
+
+</p><p><font size="+2">A GUI for image annotation</font>
+  <p>
+Within the context of a Machine Learning project for developing an
+  application capable of locating and identifying objects in an image,
+  you need to provide a dataset of "labelled" or "annotated"
+  images. This means, a collection of images showing where are the
+  objects and indicating what they are. Such a database is then used
+  to train, for instance an artificial neural network (or any other
+  Machine Learning algorithm), which takes advantage of that database
+  to offer the capability of locating and identifying the kind of
+  objects we labelled (provided that they share some features) in new images.
+  <p>
+The objective of this laboratory is to develop a GUI that
+must allow the user to annotate multiple objects in an image. Suppose
+  you have a collection of images to annotate in a given folder.
+<p>
+The user must be able to select the region of the image containing the object and assign it a label. Multiple objects, hence labels might be present on the image.
+<p>
+Here are some examples of images to annotate:
+
+<p>
+<center>
+<img src="images/yolo-object-detection.jpg" height="288" style="float: left; width: 49%; margin-right: 1%; margin-bottom: 0.5em;">
+<img src="images/dog-square.jpg" height="288" style="float: left; width: 49%; margin-right: 1%; margin-bottom: 0.5em;">
+</center>
+</p>
+<p style="clear: both;">
+
+<p>
+<center>
+<img src="images/dog-label-cat.png" height="288" style="float: left; width: 49%; margin-right: 1%; margin-bottom: 0.5em;">
+<img src="images/dog-money.png" height="288" style="float: left; width: 49%; margin-right: 1%; margin-bottom: 0.5em;">
+</center>
+</p>
+<p style="clear: both;">
+
+<p>
+You can use the Wang image database that you can download from Cyberlearn to have some images to annotate.
+</p>
+<p>
+The program must be able to generate an output file describing for
+  each image the labels that have been annotated and where the item is
+  located. 
+</p>
+Example of possible outputs:
+<br/>
+
+<table>
+  <tr>
+    <th>Image</th>
+    <th>Objects</th>
+    <th>Coordinates</th>
+  </tr>
+  <tr>
+    <td>~/Images/image01.jpg</td>
+    <td>[cat, horse]</td>
+    <td>[[(2, 2), (2, 50), (100, 2), (100, 50)], [(13, 80), (13, 200), (300, 80), (300, 200)]]</td>
+  </tr>
+  <tr>
+    <td>~/Images/image02.jpg</td>
+    <td>[dog]</td>
+    <td>[[(27, 24), (27, 77), (155, 24), (155, 77)]]</td>
+  </tr>
+  <tr>
+    <td>...</td>
+    <td>...</td>
+    <td>...</td>
+  </tr>
+</table>
+
+<p>
+This is just an example of a possible format for the output, if you find a better way to display those information, don't hesitate.
+</p>
+
+<p>
+The GUI must contain:<p>
+
+<li> A menu item allowing to exit the application
+<li> A button allowing to select an input image file
+<li> A button allowing to select an output file
+<li> A text field allowing to edit the name of the output file
+<li> A button to add new labels
+<li> A way to define the region on the image
+<li> A way to attribute a label to the selected region
+<li> A way to select multiple regions on the image with different labels
+<li> A way to remove a selection in case of error
+<li> A way to save what the user has selected on the image
+<p>
+The GUI must give feedback to the user concerning:<p>
+<li> Whether the input file is valid
+<li> Whether the output file already exists or not
+<li> The region of the image selected by the user for the attribution of the label
+<p>
+The GUI must fulfill the requirements in the checklist of design
+considerations (after Don Norman) presented during the last
+lesson. You can modify the type of interface: button, menu, slider,
+etc. proposed in the first list if you consider it to be more appropriate.
+</p><p><font size="+2">1. Sketch</font>
+<p>
+Prepare a sketch of your user interface and send it via Cyberlearn
+before <b>Tuesday 8th October, before midnight</b><br>
+User interface sketching is a kind of drawing on a paper... but it is
+not only a simple drawing. Its purpose is to reveal the result of
+problem-solving thinking. It communicates the idea to other
+people. Drawings do not have to be pretty, but they must help you
+validate your idea. Sketches must also reveal the user flow, thus you
+may provide multiple pages of drawings illustrating the dynamics of
+the interface. Nevertheless, your interface might change during development.
+
+</p><p><font size="+2">2. GUI implementation</font>
+<p>
+The project can be realised using Qt, Kivy or any library you are
+familiar with. In order to guide you towards the implementation of the
+GUI, we provide you with two starting guides for <a href="../IHM_Labo1_1/index.html">Qt</a> and <a href="../IHM_Labo1_2/readme.html">Kivy</a>. Qt uses
+C++ here, and Kivy is based on Python, which is a language you will be
+using a lot next semester.
+
+</p>
+</p><p><font size="+2">3. Report</font>
+<p>
+Please, provide a brief report (max. 4 pages) presenting and accompanying your
+GUI. Present the issues tackled by your solution and justify your
+choices. Provide your code within a zip file indicating your
+names. Demo of your interface: <b>Tuesday 4th November, 2019 before midnight</b>
+<p></p>
+
+</blockquote>
+<p></p><hr>
+September 2019
+</body></html>
