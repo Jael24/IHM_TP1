@@ -24,15 +24,9 @@ public class Controller {
     @FXML
     private Button saveAnnotation;
     @FXML
-    private Button saveAnnotatedImage;
-    @FXML
-    private Button newLabel;
-    @FXML
     private Button modify;
     @FXML
     private Button delete;
-    @FXML
-    private TextField labelName;
     @FXML
     private ListView listOfLabels;
     @FXML
@@ -106,25 +100,7 @@ public class Controller {
         labels.clear();
         annotations.clear();
     }
-
-
-    /**
-     * Create a label and add it in the list of labels
-     * @param actionEvent
-     */
-    public void createLabel(ActionEvent actionEvent) {
-        String textLabel = labelName.getCharacters().toString();
-        Color colorLabel = colorPicker.getValue();
-
-        Label label = new Label(textLabel, colorLabel);
-
-        this.labels.add(label);
-
-        listOfLabels.getItems().add(label.getText());
-        saved = false;
-    }
-
-
+    
     public void onMousePressed(MouseEvent mouseEvent) {
         if(imageLoaded) {
             System.out.println("MousePressed");
