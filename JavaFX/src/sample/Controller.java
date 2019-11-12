@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.Optional;
 
 public class Controller {
 
@@ -58,6 +59,8 @@ public class Controller {
     double finalClickY;
 
     boolean drawNewLabel = false;
+    boolean saved = true;
+    boolean imageLoaded = false;
 
 
     /**
@@ -70,7 +73,28 @@ public class Controller {
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg");
         fileChooser.getExtensionFilters().add(extensionFilter);
 
-        imageView.setImage(new Image(new FileInputStream(fileChooser.showOpenDialog(null))));
+        File file = fileChooser.showOpenDialog(null);
+
+        if(file != null) {
+            Optional<ButtonType> result = null;
+            if(!saved) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Current work not saved");
+                alert.setHeaderText("Your current work will be lost if you continue");
+                alert.setContentText("Are you sure to continue ?");
+
+                result = alert.showAndWait();
+            }
+            if (saved || result.get() == ButtonType.OK){
+                imageView.setImage(new Image(new FileInputStream(file)));
+                imageLoaded = true;
+                clearAnnotations();
+            }
+        }
+    }
+
+    private void clearAnnotations() {
+
     }
 
 
@@ -87,46 +111,73 @@ public class Controller {
         this.labels.add(label);
 
         listOfLabels.getItems().add(label.getText());
+        saved = false;
     }
 
 
     public void onMousePressed(MouseEvent mouseEvent) {
-        System.out.println("MousePressed");
-        firstClickX = mouseEvent.getX();
-        firstClickY = mouseEvent.getY();
+        if(imageLoaded) {
+            System.out.println("MousePressed");
+            firstClickX = mouseEvent.getX();
+            firstClickY = mouseEvent.getY();
+        }
     }
 
 
     public void onMouseDragged(MouseEvent mouseEvent) {
-        System.out.println("MouseDragged");
-        dragInClickX = mouseEvent.getX();
-        dragInClickY = mouseEvent.getY();
+        if(imageLoaded) {
+            System.out.println("MouseDragged");
+            dragInClickX = mouseEvent.getX();
+            dragInClickY = mouseEvent.getY();
 
-        if (!rectangles.isEmpty() && drawNewLabel) {
-            pane.getChildren().remove(rectangles.getLast());
-            rectangles.removeLast();
+            if (!rectangles.isEmpty() && drawNewLabel) {
+                pane.getChildren().remove(rectangles.getLast());
+                rectangles.removeLast();
+            }
+
+            drawNewLabel = true;
+            Rectangle rectangle = new Rectangle(dragInClickX, dragInClickY);
+            rectangle.setFill(null);
+            rectangle.setStrokeWidth(5.0);
+            rectangle.setX(firstClickX);
+            rectangle.setY(firstClickY);
+            rectangle.setStroke(colorPicker.getValue());
+
+            pane.getChildren().add(rectangle);
+
+            rectangles.add(rectangle);
+            saved = false;
         }
-
-        drawNewLabel = true;
-        Rectangle rectangle = new Rectangle(dragInClickX, dragInClickY);
-        rectangle.setFill(null);
-        rectangle.setStrokeWidth(5.0);
-        rectangle.setX(firstClickX);
-        rectangle.setY(firstClickY);
-        rectangle.setStroke(labels.getLast().getColor());
-
-        pane.getChildren().add(rectangle);
-
-        rectangles.add(rectangle);
-
     }
 
     public void onMouseReleased(MouseEvent mouseEvent) {
-        System.out.println("MouseReleased");
-        finalClickX = mouseEvent.getX();
-        finalClickY = mouseEvent.getY();
+        if(imageLoaded) {
+            System.out.println("MouseReleased");
+            finalClickX = mouseEvent.getX();
+            finalClickY = mouseEvent.getY();
 
-        drawNewLabel = false;
+            drawNewLabel = false;
+
+            newAnnotation(rectangles.getLast());
+        }
+    }
+
+    private void newAnnotation(Rectangle last) {
+        TextInputDialog dialog = new TextInputDialog("label value");
+        dialog.setTitle("New label");
+        dialog.setHeaderText("Please enter a value for the label");
+        dialog.setContentText("Label name :");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            Label label = new Label(result.get(), colorPicker.getValue());
+            listOfLabels.getItems().add(label.getText());
+            annotations.add(new Annotation(label, last));
+            saved = false;
+        } else {
+            pane.getChildren().remove(last);
+            rectangles.remove(last);
+        }
     }
 
     public void clearAll(ActionEvent actionEvent) {

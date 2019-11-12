@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.awt.*;
 
