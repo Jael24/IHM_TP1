@@ -25,6 +25,7 @@
 
             # Adding image from the system
             Image:
+                id: image
                 source: 'sample.jpeg'
                 # Giving the size of image
                 size_hint_x: 0.4
@@ -32,7 +33,7 @@
                 allow_stretch: True
 
 # Load file
-<LoadDialog>:
+<FileDialog>:
     BoxLayout:
         size: root.size
         pos: root.pos
@@ -55,5 +56,4 @@
                 text: 'Cancel'
 
             Button:
-                id: btn_save
-                text: 'Load'
+                id: btn_load
