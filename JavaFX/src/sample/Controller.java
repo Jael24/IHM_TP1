@@ -78,29 +78,38 @@ public class Controller {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Current work not saved");
                 alert.setHeaderText("Your current work will be lost if you continue");
-                alert.setContentText("Are you sure to continue ?");
+                alert.setContentText("Do you want to continue ?");
 
                 result = alert.showAndWait();
             }
             if (saved || result.get() == ButtonType.OK){
                 imageView.setImage(new Image(new FileInputStream(file)));
+                if(imageLoaded) {
+                    clearAnnotations();
+                }
                 imageLoaded = true;
-                clearAnnotations();
-
-                System.out.println(imageView.viewportProperty().toString() + " , " + imageView.getY());
             }
         }
     }
 
     private void clearAnnotations() {
-        for(Rectangle r : rectangles) {
-            pane.getChildren().remove(r);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Deleting ...");
+        alert.setHeaderText("You are going to delete ALL labels");
+        alert.setContentText("Do you want to continue ?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK){
+            for(Rectangle r : rectangles) {
+                pane.getChildren().remove(r);
+            }
+            rectangles.clear();
+            labels.clear();
+            annotations.clear();
+            listOfLabels.getItems().clear();
         }
-        rectangles.clear();
-        labels.clear();
-        annotations.clear();
     }
-    
+
     public void onMousePressed(MouseEvent mouseEvent) {
         if(imageLoaded) {
             System.out.println("MousePressed");
@@ -109,10 +118,9 @@ public class Controller {
         }
     }
 
-
     public void onMouseDragged(MouseEvent mouseEvent) {
         if(imageLoaded) {
-            System.out.println("MouseDragged");
+           // System.out.println("MouseDragged");
             dragInClickX = mouseEvent.getX();
             dragInClickY = mouseEvent.getY();
 
@@ -124,7 +132,7 @@ public class Controller {
             drawNewLabel = true;
             Rectangle rectangle = new Rectangle(dragInClickX, dragInClickY);
             rectangle.setFill(null);
-            rectangle.setStrokeWidth(5.0);
+            rectangle.setStrokeWidth(3.0);
             rectangle.setX(firstClickX);
             rectangle.setY(firstClickY);
             rectangle.setStroke(colorPicker.getValue());
@@ -167,14 +175,7 @@ public class Controller {
     }
 
     public void clearAll(ActionEvent actionEvent) {
-        for(Rectangle r : rectangles) {
-            pane.getChildren().remove(r);
-           // rectangles.remove(r);
-        }
-        rectangles.clear();
-        annotations.clear();
-        labels.clear();
-        listOfLabels.getItems().clear();
+        clearAnnotations();
     }
 
     public void selectAnnotation(MouseEvent mouseEvent) {
@@ -184,10 +185,18 @@ public class Controller {
 
     public void deleteAnnotation(ActionEvent actionEvent) {
         if(current != null) {
-            pane.getChildren().remove(current.getRectangle());
-            rectangles.remove(current.getRectangle());
-            listOfLabels.getItems().remove(currentAnnotId);
-            annotations.remove(current);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Deleting ...");
+            alert.setHeaderText("You are going to delete label : " + current.getLabel().getText());
+            alert.setContentText("Do you want to continue ?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK){
+                pane.getChildren().remove(current.getRectangle());
+                rectangles.remove(current.getRectangle());
+                listOfLabels.getItems().remove(currentAnnotId);
+                annotations.remove(current);
+            }
             current = null;
         }
     }
