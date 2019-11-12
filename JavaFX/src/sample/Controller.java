@@ -11,9 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.Optional;
 
@@ -57,6 +55,8 @@ public class Controller {
     Annotation current = null;
     int currentAnnotId = 0;
 
+    private String imageURL;
+
 
     /**
      * Load an image from the disk and set the imageView
@@ -73,6 +73,7 @@ public class Controller {
         File file = fileChooser.showOpenDialog(null);
 
         if(file != null) {
+            imageURL = file.getAbsolutePath();
             Optional<ButtonType> result = null;
             if(!saved) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -90,6 +91,30 @@ public class Controller {
                 imageLoaded = true;
             }
         }
+    }
+
+    public void saveImage(ActionEvent actionEvent) throws FileNotFoundException {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Text files (txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+
+        File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+            PrintWriter writer;
+            writer = new PrintWriter(file);
+            writer.println("Image Path, Image Size, Label, Color, Coordinates");
+            for (Annotation a : annotations) {
+                writer.println(this.imageURL + ", "
+                        + "(" + imageView.getFitWidth() + ";" + imageView.getFitHeight() + "), "
+                        + a.getLabel().getText() + ", "
+                        + a.getLabel().getColor().toString() + ", "
+                        + "(" + a.getRectangle().getX() + ";" + a.getRectangle().getY() + ";" + a.getRectangle().getHeight() + ";" + a.getRectangle().getWidth() + ")");
+            }
+            writer.close();
+            saved = true;
+        }
+
     }
 
     private void clearAnnotations() {
@@ -120,7 +145,7 @@ public class Controller {
 
     public void onMouseDragged(MouseEvent mouseEvent) {
         if(imageLoaded) {
-           // System.out.println("MouseDragged");
+            System.out.println("MouseDragged");
             dragInClickX = mouseEvent.getX();
             dragInClickY = mouseEvent.getY();
 
@@ -130,9 +155,9 @@ public class Controller {
             }
 
             drawNewLabel = true;
-            Rectangle rectangle = new Rectangle(dragInClickX, dragInClickY);
+            Rectangle rectangle = new Rectangle(dragInClickX - firstClickX, dragInClickY - firstClickY);
             rectangle.setFill(null);
-            rectangle.setStrokeWidth(3.0);
+            rectangle.setStrokeWidth(5.0);
             rectangle.setX(firstClickX);
             rectangle.setY(firstClickY);
             rectangle.setStroke(colorPicker.getValue());
