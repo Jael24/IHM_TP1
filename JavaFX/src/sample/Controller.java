@@ -24,8 +24,6 @@ public class Controller {
     @FXML
     private Button saveAnnotation;
     @FXML
-    private Button modify;
-    @FXML
     private Button delete;
     @FXML
     private ListView listOfLabels;
@@ -66,6 +64,8 @@ public class Controller {
      * @throws FileNotFoundException
      */
     public void loadImage(ActionEvent actionEvent) throws FileNotFoundException {
+        delete.setDisable(true);
+
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg");
         fileChooser.getExtensionFilters().add(extensionFilter);
@@ -181,6 +181,7 @@ public class Controller {
     public void selectAnnotation(MouseEvent mouseEvent) {
         currentAnnotId = listOfLabels.getSelectionModel().getSelectedIndex();
         current = annotations.get(currentAnnotId);
+        delete.setDisable(false);
     }
 
     public void deleteAnnotation(ActionEvent actionEvent) {
@@ -198,6 +199,7 @@ public class Controller {
                 annotations.remove(current);
             }
             current = null;
+            delete.setDisable(true);
         }
     }
 }

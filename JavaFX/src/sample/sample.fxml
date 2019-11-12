@@ -11,8 +11,7 @@
       <Button layoutY="1.0" mnemonicParsing="false" onAction="#loadImage" prefHeight="26.0" prefWidth="197.0" text="Load image" />
       <Button layoutX="197.0" layoutY="1.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="206.0" text="Save annotation" />
       <ListView id="lvLabels" fx:id="listOfLabels" layoutX="373.0" layoutY="120.0" onMouseClicked="#selectAnnotation" prefHeight="125.0" prefWidth="183.0" />
-      <Button layoutX="370.0" layoutY="254.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Modify" />
-      <Button layoutX="481.0" layoutY="253.0" mnemonicParsing="false" onAction="#deleteAnnotation" prefHeight="26.0" prefWidth="85.0" text="Delete" />
+      <Button layoutX="426.0" fx:id="delete" layoutY="252.0" mnemonicParsing="false" onAction="#deleteAnnotation" prefHeight="26.0" prefWidth="85.0" text="Delete" />
       <ColorPicker id="cpNewLabel" fx:id="colorPicker" layoutX="373.0" layoutY="83.0" prefHeight="26.0" prefWidth="184.0" />
       <Pane fx:id="pane" layoutX="9.0" layoutY="48.0" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" onMouseReleased="#onMouseReleased" prefHeight="241.0" prefWidth="354.0">
          <children>
