@@ -12,12 +12,17 @@
       <Button layoutY="1.0" mnemonicParsing="false" onAction="#loadImage" prefHeight="26.0" prefWidth="197.0" text="Load image" />
       <Button layoutX="198.0" layoutY="1.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="206.0" text="Save annotation" />
       <Button layoutX="405.0" layoutY="1.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" text="Save annotated image" />
-      <TextField id="tfNewLabel" fx:id="labelName" layoutX="322.0" layoutY="49.0" />
-      <Button id="btnNewLabel" fx:id="newLabel" layoutX="501.0" layoutY="49.0" mnemonicParsing="false" text="New Label" />
+      <TextField id="tfNewLabel" fx:id="labelName" layoutX="374.0" layoutY="49.0" prefHeight="26.0" prefWidth="118.0" />
+      <Button id="btnNewLabel" fx:id="newLabel" layoutX="501.0" layoutY="49.0" mnemonicParsing="false" onAction="#createLabel" text="New Label" />
       <ListView id="lvLabels" fx:id="listOfLabels" layoutX="373.0" layoutY="120.0" prefHeight="125.0" prefWidth="183.0" />
       <Button layoutX="370.0" layoutY="254.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Modify" />
       <Button layoutX="481.0" layoutY="253.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="85.0" text="Delete" />
-      <ImageView fx:id="imageView" fitHeight="247.0" fitWidth="350.0" layoutX="7.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" />
-      <ColorPicker id="cpNewLabel" layoutX="373.0" layoutY="83.0" prefHeight="26.0" prefWidth="184.0" />
+      <ColorPicker id="cpNewLabel" fx:id="colorPicker" layoutX="373.0" layoutY="83.0" prefHeight="26.0" prefWidth="184.0" />
+      <Pane fx:id="pane" layoutX="9.0" layoutY="48.0" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" onMouseReleased="#onMouseReleased" prefHeight="241.0" prefWidth="354.0">
+         <children>
+            <ImageView fx:id="imageView" fitHeight="241.0" fitWidth="354.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Button onAction="#clearAll" id="btnClearAnnotation" layoutX="370.0" layoutY="289.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="197.0" text="Clear all annotations" />
    </children>
 </Pane>
