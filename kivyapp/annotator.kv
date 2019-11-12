@@ -1,9 +1,10 @@
 #:kivy 1.11.1
 
-<GUI>:
+<MainGUI>:
     StackLayout:
+        # Top bar with file manipulation options
         ActionBar:
-            pos_hint: {'top':1}
+            pos_hint: {'top': 1}
             ActionView:
                 use_separator: True
                 ActionPrevious:
@@ -20,19 +21,57 @@
                     text: 'Save annotated image'
                     id: save_image
 
-        BoxLayout:
+        # Main area in the window
+        GridLayout:
+            cols: 2
+            orientation: 'horizontal'
             padding:5
 
-            # Adding image from the system
+            # Image area
             Image:
                 id: image
                 source: 'sample.jpeg'
-                # Giving the size of image
-                size_hint_x: 0.4
-                # allow stretching of image
-                allow_stretch: True
+                #size_hint_x: 0.4
+                allow_stretch: False
 
-# Load file
+            # Layout at the right of the image
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: 0.5, 1
+                padding: 10
+
+                # Label text input
+                TextInput:
+                    id: label_input
+                    #size_hint_x: None
+                    #width: 100
+                    size_hint_y: None
+                    height: 30
+                    multiline: False
+
+                Button:
+                    id: add_label
+                    text: "Add label"
+                    size: 110, 35
+                    size_hint: None, None
+
+                Button:
+                    id: remove_label
+                    text: "Remove label"
+                    size: 110, 35
+                    size_hint: None, None
+
+                RecycleView:
+                    RecycleGridLayout:
+                        cols: 3
+                        key_selection: 'selectable'
+                        default_size: None, dp(26)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        multiselect: False
+
+# Load or save file
 <FileDialog>:
     BoxLayout:
         size: root.size
