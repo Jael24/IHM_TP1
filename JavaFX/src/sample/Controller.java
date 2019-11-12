@@ -62,6 +62,9 @@ public class Controller {
     boolean saved = true;
     boolean imageLoaded = false;
 
+    Annotation current = null;
+    int currentAnnotId = 0;
+
 
     /**
      * Load an image from the disk and set the imageView
@@ -89,12 +92,19 @@ public class Controller {
                 imageView.setImage(new Image(new FileInputStream(file)));
                 imageLoaded = true;
                 clearAnnotations();
+
+                System.out.println(imageView.viewportProperty().toString() + " , " + imageView.getY());
             }
         }
     }
 
     private void clearAnnotations() {
-
+        for(Rectangle r : rectangles) {
+            pane.getChildren().remove(r);
+        }
+        rectangles.clear();
+        labels.clear();
+        annotations.clear();
     }
 
 
@@ -186,5 +196,23 @@ public class Controller {
            // rectangles.remove(r);
         }
         rectangles.clear();
+        annotations.clear();
+        labels.clear();
+        listOfLabels.getItems().clear();
+    }
+
+    public void selectAnnotation(MouseEvent mouseEvent) {
+        currentAnnotId = listOfLabels.getSelectionModel().getSelectedIndex();
+        current = annotations.get(currentAnnotId);
+    }
+
+    public void deleteAnnotation(ActionEvent actionEvent) {
+        if(current != null) {
+            pane.getChildren().remove(current.getRectangle());
+            rectangles.remove(current.getRectangle());
+            listOfLabels.getItems().remove(currentAnnotId);
+            annotations.remove(current);
+            current = null;
+        }
     }
 }
