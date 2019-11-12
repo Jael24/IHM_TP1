@@ -86,7 +86,7 @@ public class Controller {
             if (saved || result.get() == ButtonType.OK){
                 imageView.setImage(new Image(new FileInputStream(file)));
                 if(imageLoaded) {
-                    clearAnnotations();
+                    clearAnnotations(false);
                 }
                 imageLoaded = true;
             }
@@ -94,37 +94,48 @@ public class Controller {
     }
 
     public void saveImage(ActionEvent actionEvent) throws FileNotFoundException {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Text files (txt)", "*.txt");
-        fileChooser.getExtensionFilters().add(extensionFilter);
+        if(annotations.size() > 0) {
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Text files (txt)", "*.txt");
+            fileChooser.getExtensionFilters().add(extensionFilter);
 
-        File file = fileChooser.showSaveDialog(null);
+            File file = fileChooser.showSaveDialog(null);
 
-        if (file != null) {
-            PrintWriter writer;
-            writer = new PrintWriter(file);
-            writer.println("Image Path, Image Size, Label, Color, Coordinates");
-            for (Annotation a : annotations) {
-                writer.println(this.imageURL + ", "
-                        + "(" + imageView.getFitWidth() + ";" + imageView.getFitHeight() + "), "
-                        + a.getLabel().getText() + ", "
-                        + a.getLabel().getColor().toString() + ", "
-                        + "(" + a.getRectangle().getX() + ";" + a.getRectangle().getY() + ";" + a.getRectangle().getHeight() + ";" + a.getRectangle().getWidth() + ")");
+            if (file != null) {
+                PrintWriter writer;
+                writer = new PrintWriter(file);
+                writer.println("Image Path, Image Size, Label, Color, Coordinates");
+                for (Annotation a : annotations) {
+                    writer.println(this.imageURL + ", "
+                            + "(" + imageView.getFitWidth() + ";" + imageView.getFitHeight() + "), "
+                            + a.getLabel().getText() + ", "
+                            + a.getLabel().getColor().toString() + ", "
+                            + "(" + a.getRectangle().getX() + ";" + a.getRectangle().getY() + ";" + a.getRectangle().getHeight() + ";" + a.getRectangle().getWidth() + ")");
+                }
+                writer.close();
+                saved = true;
             }
-            writer.close();
-            saved = true;
-        }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Saving");
+            alert.setHeaderText(null);
+            alert.setContentText("No annotation to save !");
 
+            alert.showAndWait();
+        }
     }
 
-    private void clearAnnotations() {
+    private void clearAnnotations(boolean showAlert) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Deleting ...");
         alert.setHeaderText("You are going to delete ALL labels");
         alert.setContentText("Do you want to continue ?");
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = null;
+        if(showAlert) {
+            result = alert.showAndWait();
+        }
 
-        if (result.get() == ButtonType.OK){
+        if (!showAlert || result.get() == ButtonType.OK){
             for(Rectangle r : rectangles) {
                 pane.getChildren().remove(r);
             }
@@ -200,7 +211,7 @@ public class Controller {
     }
 
     public void clearAll(ActionEvent actionEvent) {
-        clearAnnotations();
+        clearAnnotations(true);
     }
 
     public void selectAnnotation(MouseEvent mouseEvent) {
